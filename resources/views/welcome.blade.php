@@ -10,7 +10,8 @@
 </head>
 <body>
     <div id="app">
-        <Weather />
+        {{-- <Weather /> --}}
+        <Cities/>
     </div>
 </body>
 </html>

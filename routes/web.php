@@ -20,6 +20,7 @@ Route::get('/welcome', function () {
 });
 
 Route::get('/',[PageController::class,'index'])->name('weaterReport');
+Route::get('/cities',[PageController::class,'cities'])->name('cities');
 Route::get('/app', function () {
     return view('app');
 });

@@ -15,4 +15,17 @@ class CityController extends Controller
             'data' => $cities
         ]);
     }
+
+    public function storeCity(Request $request)
+    {
+        City::create($request->all());
+        return response()->json('success');
+    }
+
+    public function removeCity($cityId)
+    {
+        City::find($cityId)->delete();
+    }
+
+    
 }

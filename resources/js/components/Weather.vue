@@ -13,7 +13,7 @@
                     <img class="weather_icon" :src="weatherIcon" alt="">
 
                     <div class="temp_container">
-                        <span class="temp_number">{{item.temp_cel}}</span>
+                        <span class="temp_number">{{ item.temp_cel }}</span>
                         <span class="temp_symbol">°</span>
                     </div>
                 </div>
@@ -28,6 +28,8 @@ import { ref } from 'vue';
 const iconDir = "../../../assets/project_images/";
 
 const weatherIcon = ref(iconDir + "clear.svg");
+const baseUrl = window.location.origin;
+
 
 export default {
     data() {
@@ -45,9 +47,7 @@ export default {
 
     methods: {
         getCities() {
-            let api_key = "4c7f1f68689243332f5672f3f5d973e0";
-            let city = "Abu Dhabi";
-            fetch("https://weap.test/api/get-cities")
+            fetch(baseUrl+"/api/get-cities")
                 .then(response => response.json())
                 .then(data => {
                     if (data.code == 200) {
@@ -70,11 +70,11 @@ export default {
                     .then(response => response.json())
                     .then(data => {
                         // console.log(data.cod)
-                        
+
                         if (data.cod == 200) {
                             console.log(data);
-                            let temp_cel  = parseFloat(data.main.temp) - 273.15;
-                            let feels_like_cel  = parseFloat(data.main.temp) - 273.15;
+                            let temp_cel = parseFloat(data.main.temp) - 273.15;
+                            let feels_like_cel = parseFloat(data.main.temp) - 273.15;
                             let cityData = {
                                 city_id: city.id,
                                 name: city.name,

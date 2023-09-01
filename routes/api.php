@@ -20,3 +20,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/get-cities',[CityController::class,'getCities'])->name('getCities');
+Route::post('/add-city',[CityController::class,'storeCity'])->name('storeCity');
+Route::post('/remove-city/{cityId}',[CityController::class,'removeCity'])->name('removeCity');

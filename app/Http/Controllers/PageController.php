@@ -9,4 +9,9 @@ class PageController extends Controller
     public function index() {
         return view('weather_report');
     }
+
+    public function cities()
+    {
+        return view('cities');
+    }
 }
