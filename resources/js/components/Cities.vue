@@ -47,7 +47,7 @@
                     <td>{{ city.lat }}</td>
                     <td>{{ city.lon }}</td>
                     <td>
-                        <a href="#" class="text-danger" @click="deleteData(city.id)">
+                        <a href="javascript:void(0)" class="text-danger" @click="deleteData(city.id)">
                             <i class="mdi mdi-delete" style="font-size: 21px;"></i>
                         </a>
                     </td>

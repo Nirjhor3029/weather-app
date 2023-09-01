@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class CityController extends Controller
 {
-    public function getCities() 
+    public function getCities()
     {
         $cities = City::all();
         return response()->json([
@@ -19,13 +19,14 @@ class CityController extends Controller
     public function storeCity(Request $request)
     {
         City::create($request->all());
-        return response()->json('success');
+        return response()->json([
+            'code' => 200,
+            'status' => 'success'
+        ], 200);
     }
 
     public function removeCity($cityId)
     {
         City::find($cityId)->delete();
     }
-
-    
 }

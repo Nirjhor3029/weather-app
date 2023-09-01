@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string("weather_condition")->nullable();
             $table->string("weather_description")->nullable();
             $table->string("weather_icon")->nullable();
+            $table->string("weather_icon_svg")->nullable();
 
             $table->string("temp_cel")->nullable();
             $table->string("feels_like_cel")->nullable();

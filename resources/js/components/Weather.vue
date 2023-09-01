@@ -47,7 +47,7 @@ export default {
 
     methods: {
         getCities() {
-            fetch(baseUrl+"/api/get-cities")
+            fetch(baseUrl + "/api/get-cities")
                 .then(response => response.json())
                 .then(data => {
                     if (data.code == 200) {
@@ -63,32 +63,39 @@ export default {
 
         fetchData() {
             let api_key = "4c7f1f68689243332f5672f3f5d973e0";
-            console.log("fdfds");
+            // console.log("fdfds");
             this.cities.forEach(city => {
-                // console.log(city.name);
-                fetch("https://api.openweathermap.org/data/2.5/weather?q=" + city.name + "&appid=" + api_key)
+                fetch("https://api.openweathermap.org/data/2.5/weather?lat=" + city.lat + "&lon=" + city.lon + "&appid=" + api_key)
                     .then(response => response.json())
                     .then(data => {
-                        // console.log(data.cod)
-
+                        // console.log(data);
                         if (data.cod == 200) {
-                            console.log(data);
+                            // console.log(data);
+
                             let temp_cel = parseFloat(data.main.temp) - 273.15;
-                            let feels_like_cel = parseFloat(data.main.temp) - 273.15;
+                            let feels_like_cel = parseFloat(data.main.feels_like) - 273.15;
+
+                            const conversionFactor = 3.6; // 1 m/s = 3.6 km/h
+                            let windSpeedMetersPerSecond = parseFloat(data.wind.speed);
+                            // Calculate kilometers per hour
+                            let windSpeedkilometersPerHour = windSpeedMetersPerSecond * conversionFactor;
+
                             let cityData = {
                                 city_id: city.id,
                                 name: city.name,
                                 country: city.country,
+
+                                weather_condition: data.weather.main,
                                 weather_description: data.weather.description,
                                 weather_icon: data.weather.icon,
                                 temp_cel: temp_cel.toFixed(),
                                 feels_like_cel: feels_like_cel.toFixed(),
-                                pressure: data.weather.icon,
-                                humidity: data.weather.icon,
-                                wind_speed_km: data.weather.icon,
-                                wind_speed_deg: data.weather.icon,
-                                temp_min: data.weather.icon,
-                                temp_max: data.weather.icon
+                                pressure: data.main.pressure,
+                                humidity: data.main.humidity,
+                                temp_min: data.main.temp_min,
+                                temp_max: data.main.temp_max,
+                                wind_speed_km: windSpeedkilometersPerHour.toFixed(),
+                                wind_speed_deg: data.wind.deg,
                             };
                             this.items.push(cityData);
                         }
@@ -96,10 +103,43 @@ export default {
                     .catch(error => {
                         console.error("An error occurred:", error);
                     });
-            })
-
-
+            });
+            console.log(this.items);
         }
+        // fetchData() {
+        //     let api_key = "4c7f1f68689243332f5672f3f5d973e0";
+        //     console.log("fdfds");
+        //     this.cities.forEach(city => {
+        //         fetch("https://api.openweathermap.org/data/2.5/weather?q=" + city.name + "&appid=" + api_key)
+        //             .then(response => response.json())
+        //             .then(data => {
+        //                 if (data.cod == 200) {
+        //                     console.log(data);
+        //                     let temp_cel = parseFloat(data.main.temp) - 273.15;
+        //                     let feels_like_cel = parseFloat(data.main.temp) - 273.15;
+        //                     let cityData = {
+        //                         city_id: city.id,
+        //                         name: city.name,
+        //                         country: city.country,
+        //                         weather_description: data.weather.description,
+        //                         weather_icon: data.weather.icon,
+        //                         temp_cel: temp_cel.toFixed(),
+        //                         feels_like_cel: feels_like_cel.toFixed(),
+        //                         pressure: data.weather.icon,
+        //                         humidity: data.weather.icon,
+        //                         wind_speed_km: data.weather.icon,
+        //                         wind_speed_deg: data.weather.icon,
+        //                         temp_min: data.weather.icon,
+        //                         temp_max: data.weather.icon
+        //                     };
+        //                     this.items.push(cityData);
+        //                 }
+        //             })
+        //             .catch(error => {
+        //                 console.error("An error occurred:", error);
+        //             });
+        //     })
+        // }
     }
 }
 
