@@ -10,7 +10,7 @@
 </head>
 <body>
     <div id="app">
-        <Example />
+        <Weather />
     </div>
 </body>
 </html>

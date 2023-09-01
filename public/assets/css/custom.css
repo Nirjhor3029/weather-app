@@ -1,0 +1,28 @@
+.weather_container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: .5rem !important;
+}
+.weather_container .address{
+    width: 100%;
+}
+.weather_container .weather_icon{
+    height: 100px;
+}
+
+.weather_container .city_name{
+    font-size: 18px;
+}
+.weather_container .country_name{
+    font-size: 10px;
+    font-weight: 400;
+}
+
+.weather_container .temp_container{
+    font-size: 46px;
+}
+
+.weather_container .temp_container .temp_symbol{
+    color: rgb(94, 94, 188);
+}
