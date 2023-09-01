@@ -10,7 +10,8 @@
                         <div class="country_name">{{ item.country }}</div>
                     </div>
 
-                    <img class="weather_icon" :src="weatherIcon" alt="">
+                    <!-- <img class="weather_icon" :src="weatherIcon" alt=""> -->
+                    <img class="weather_icon" :src="item.iconUrl" alt="">
 
                     <div class="temp_container">
                         <span class="temp_number">{{ item.temp_cel }}</span>
@@ -43,6 +44,10 @@ export default {
     mounted() {
         console.log("Component mounted");
         this.getCities();
+
+        setInterval(() => {
+            this.fetchData();
+        }, 60000);
     },
 
     methods: {
@@ -62,6 +67,7 @@ export default {
         },
 
         fetchData() {
+            this.items = [];
             let api_key = "4c7f1f68689243332f5672f3f5d973e0";
             // console.log("fdfds");
             this.cities.forEach(city => {
@@ -70,7 +76,7 @@ export default {
                     .then(data => {
                         // console.log(data);
                         if (data.cod == 200) {
-                            // console.log(data);
+                            // console.log(data.weather[0].icon);
 
                             let temp_cel = parseFloat(data.main.temp) - 273.15;
                             let feels_like_cel = parseFloat(data.main.feels_like) - 273.15;
@@ -79,15 +85,47 @@ export default {
                             let windSpeedMetersPerSecond = parseFloat(data.wind.speed);
                             // Calculate kilometers per hour
                             let windSpeedkilometersPerHour = windSpeedMetersPerSecond * conversionFactor;
+                            let icon_svg = "";
+                            let temp_desc = data.weather[0].description;
+                            
+                            if (temp_desc == "clear sky") {
+                                icon_svg = "clear.svg";
+                            } else if (temp_desc == "few clouds") {
+                                icon_svg = "cloudy_rainny.svg";
+                            } else if (temp_desc == "scattered clouds") {
+                                icon_svg = "cloudy.svg";
+                            } else if (temp_desc == "broken clouds") {
+                                icon_svg = "cloudy.svg";
+                            } else if (temp_desc == "shower rain") {
+                                icon_svg = "rain.svg";
+                            } else if (temp_desc == "rain") {
+                                icon_svg = "rain.svg";
+                            } else if (temp_desc == "thunderstorm") {
+                                icon_svg = null;
+                            } else if (temp_desc == "snow") {
+                                icon_svg = null;
+                            } else if (temp_desc == "mist") {
+                                icon_svg = null;
+                            } else {
+                                icon_svg = null;
+                            }
+
+                            let iconUrl = "";
+
+                            if(icon_svg == null){
+                                iconUrl = "https://openweathermap.org/img/wn/"+data.weather[0].icon+"@2x.png";
+                            }else{
+                                iconUrl = ref(iconDir + icon_svg);
+                            }
 
                             let cityData = {
                                 city_id: city.id,
                                 name: city.name,
                                 country: city.country,
 
-                                weather_condition: data.weather.main,
-                                weather_description: data.weather.description,
-                                weather_icon: data.weather.icon,
+                                weather_condition: data.weather[0].main,
+                                weather_description: data.weather[0].description,
+                                weather_icon: data.weather[0].icon,
                                 temp_cel: temp_cel.toFixed(),
                                 feels_like_cel: feels_like_cel.toFixed(),
                                 pressure: data.main.pressure,
@@ -96,6 +134,7 @@ export default {
                                 temp_max: data.main.temp_max,
                                 wind_speed_km: windSpeedkilometersPerHour.toFixed(),
                                 wind_speed_deg: data.wind.deg,
+                                iconUrl: iconUrl,
                             };
                             this.items.push(cityData);
                         }
