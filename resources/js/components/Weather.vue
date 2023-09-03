@@ -1,8 +1,6 @@
 <template>
     <div class="row">
-
-
-        <div v-for="(item, index) in items" :key="index" class="col-xl-2 col-md-3 col-sm-4 grid-margin stretch-card">
+        <div v-for="(item, index) in items" :key="index" class="col-xl-4 col-md-4 col-sm-4 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body weather_container">
                     <div class="address">
@@ -30,6 +28,7 @@ const iconDir = "../../../assets/project_images/";
 
 const weatherIcon = ref(iconDir + "clear.svg");
 const baseUrl = window.location.origin;
+const api_key = "4c7f1f68689243332f5672f3f5d973e0";
 
 
 export default {
@@ -68,7 +67,6 @@ export default {
 
         fetchData() {
             this.items = [];
-            let api_key = "4c7f1f68689243332f5672f3f5d973e0";
             // console.log("fdfds");
             this.cities.forEach(city => {
                 fetch("https://api.openweathermap.org/data/2.5/weather?lat=" + city.lat + "&lon=" + city.lon + "&appid=" + api_key)
@@ -146,7 +144,6 @@ export default {
             console.log(this.items);
         }
         // fetchData() {
-        //     let api_key = "4c7f1f68689243332f5672f3f5d973e0";
         //     console.log("fdfds");
         //     this.cities.forEach(city => {
         //         fetch("https://api.openweathermap.org/data/2.5/weather?q=" + city.name + "&appid=" + api_key)
@@ -201,7 +198,6 @@ export default {
 
 //     methods: {
 //         fetchData() {
-//             let api_key = "4c7f1f68689243332f5672f3f5d973e0";
 //             let city = "Abu Dhabi";
 //             fetch("https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + api_key)
 //                 .then(response => response.json())

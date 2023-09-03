@@ -62,6 +62,8 @@ import axios from 'axios';
 import { reactive } from 'vue';
 
 const baseUrl = window.location.origin;
+const api_key = "4c7f1f68689243332f5672f3f5d973e0";
+
 export default {
 
     data() {
@@ -130,7 +132,6 @@ export default {
         },
 
         fetchData() {
-            let api_key = "4c7f1f68689243332f5672f3f5d973e0";
             fetch("https://api.openweathermap.org/data/2.5/weather?q=" + this.form.name + "&appid=" + api_key)
                 .then(response => response.json())
                 .then(data => {

@@ -26,3 +26,7 @@ Route::post('/remove-city/{cityId}',[CityController::class,'removeCity'])->name(
 
 Route::post('/add-weather-report',[WeatherController::class,'storeWeather'])->name('storeWeather');
 Route::get('/fetch-weather-api',[WeatherController::class,'fetchWeatherAPI'])->name('fetchWeatherAPI');
+
+// From Database
+Route::get('/get-hourly-data',[WeatherController::class,'getHourlyData'])->name('getHourlyData');
+Route::get('/get-hourly-data-by-city/{city_name}',[WeatherController::class,'getHourlyDataByCity'])->name('getHourlyData');

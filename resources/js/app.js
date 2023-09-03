@@ -4,12 +4,14 @@ import './bootstrap';
 import { createApp } from 'vue';
 import Cities from "./components/Cities.vue";
 import Example from "./components/Example.vue";
+import Statistics from "./components/Statistics.vue";
 import Weather from "./components/Weather.vue";
 const app = createApp({
     components:{
         Example,
         Weather,
-        Cities
+        Cities,
+        Statistics,
     }
 })
 app.mount("#app")

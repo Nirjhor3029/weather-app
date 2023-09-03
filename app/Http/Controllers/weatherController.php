@@ -22,7 +22,7 @@ class WeatherController extends Controller
     public function fetchWeatherAPI()
     {
         $cities = City::all();
-        $api_key = '4c7f1f68689243332f5672f3f5d973e0';
+        $api_key = env('API_KEY');
 
         $allData = [];
 
@@ -104,5 +104,102 @@ class WeatherController extends Controller
             'code' => 200,
             'status' => 'success'
         ], 200);
+    }
+
+    public function getHourlyData()
+    {
+
+        $date = null;
+
+        $cities = City::all();
+
+        $allCitiesHourlyData = [];
+
+        foreach ($cities as $key => $city) {
+            $allCitiesHourlyData[$city->name] = [
+                'city_name' => $city->name,
+                'data' => $this->getSingleLocationDataHourly($city->id, $date)
+            ];
+        }
+
+        dd($allCitiesHourlyData);
+    }
+
+    public function getHourlyDataByCity($city_name, $date = null)
+    {
+
+        $city = City::where('name', $city_name)->first();
+        if (!isset($city)) {
+            return response()->json([
+                'status' => 404,
+                'message' => "City not found"
+            ], 404);
+        }
+
+        $data = $this->getSingleLocationDataHourly($city->id, $date);
+        return response()->json([
+            'status' => 200,
+            'data' => $data
+        ], 200);
+    }
+
+    public function getSingleLocationDataHourly($cityId, $date)
+    {
+        if ($date == null) {
+            $now = Carbon::now();
+        }
+
+        $startOfDay = $now->format('Y-m-d 00:00:00');
+        $endOfDay = $now->format('Y-m-d 23:59:59');
+        $carbonDate = Carbon::createFromFormat('Y-m-d H:i:s', $startOfDay);
+
+        // Extract the day
+        // $day = $carbonDate->format('l');
+        // return $day;
+
+        // Retrieve temperature data from the database ordered by timestamp
+        $temperatureData = WeatherReport::where('city_id', $cityId)
+            ->whereBetween('created_at', [$startOfDay, $endOfDay])
+            ->orderBy('created_at')->get();
+
+        // Initialize an array to store hourly temperature differences
+        $hourlyTemperatures = [];
+
+        // Initialize variables to keep track of the current hour and the closest data point to the start of the hour
+        $currentHour = null;
+        $closestDataPoint = null;
+
+        foreach ($temperatureData as $data) {
+            $created_at = $data->created_at;
+            $temperature = $data->temp_cel;
+
+            if (!$currentHour) {
+                $currentHour = $created_at->format('Y-m-d H:00:00');
+                $closestDataPoint = $data;
+            }
+
+            if ($created_at->format('Y-m-d H:00:00') === $currentHour) {
+                // Update the closest data point if it's closer to the start of the hour
+                if (abs($created_at->diffInSeconds($currentHour)) < abs($closestDataPoint->created_at->diffInSeconds($currentHour))) {
+                    $closestDataPoint = $data;
+                }
+            } else {
+                // Store the closest data point for the current hour
+                $hourlyTemperatures[] = [
+                    'hour' => $currentHour,
+                    'temperature' => $closestDataPoint->temp_cel,
+                    'wind' => $closestDataPoint->temp_cel,
+                    'humidity' => $closestDataPoint->humidity,
+                ];
+
+                // Reset variables for the next hour
+                $currentHour = $created_at->format('Y-m-d H:00:00');
+                $closestDataPoint = $data;
+            }
+        }
+
+        // Now $hourlyTemperatures contains data for every hour
+        // dd($hourlyTemperatures);
+        return $hourlyTemperatures;
     }
 }
