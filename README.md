@@ -8,10 +8,10 @@
 5.a.  Add **API_KEY={Your_API_KEY}** .env file <br>
 5.b.  **Must change APP_URL** <br>
 6.  php artisan migrate <br>
-8.  NPM setup <br>
-8.a.  npm install <br>
-8.a.  npm run dev/ npm run build <br>
-9. `php artisan schedule:work` : for fetch weather data in every 10 minutes <br>
+7.  NPM setup <br>
+7.a.  npm install <br>
+7.a.  npm run dev/ npm run build <br>
+8. `php artisan schedule:work` : for fetch weather data in every 10 minutes <br>
 
 
 *** Statistics part will show the chart after fetching data atleast 1 hour. As we are showing hourly report.
