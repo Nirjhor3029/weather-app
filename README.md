@@ -64,3 +64,30 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+
+composer update
+cp .env.example .env
+php artisan key:generate
+
+modify .env file
+add: 
+	API_KEY={Your_API_KEY}
+modify database name,username & password
+
+*** Must modify the APP_URL={your_app_url}
+
+
+php artisan migrate
+
+npm install
+npm run dev/ npm run build
+---------
+run project 
+add some cities
+
+"php artisan schedule:work" for fetch weather data in every 10 minutes
+
+
+*** Statistics part will show the chart after fetching data atleast 1 hour. As we are showing hourly report.
