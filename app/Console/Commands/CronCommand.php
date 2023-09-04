@@ -35,6 +35,7 @@ class CronCommand extends Command
 
         // Make an HTTP GET request to your route
         $url = url('/api/fetch-weather-api');
+
         Log::build([
             'driver' => 'single',
             'path' => storage_path('logs/custom-log.log'),

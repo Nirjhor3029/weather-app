@@ -145,17 +145,14 @@ class WeatherController extends Controller
 
     public function getSingleLocationDataHourly($cityId, $date)
     {
-        if ($date == null) {
-            $now = Carbon::now();
+        if ($date == "today") {
+            $selectedDate = Carbon::now();
+        } else {
+            $selectedDate = Carbon::parse($date);
         }
 
-        $startOfDay = $now->format('Y-m-d 00:00:00');
-        $endOfDay = $now->format('Y-m-d 23:59:59');
-        $carbonDate = Carbon::createFromFormat('Y-m-d H:i:s', $startOfDay);
-
-        // Extract the day
-        // $day = $carbonDate->format('l');
-        // return $day;
+        $startOfDay = $selectedDate->format('Y-m-d 00:00:00');
+        $endOfDay = $selectedDate->format('Y-m-d 23:59:59');
 
         // Retrieve temperature data from the database ordered by timestamp
         $temperatureData = WeatherReport::where('city_id', $cityId)
@@ -171,8 +168,7 @@ class WeatherController extends Controller
 
         foreach ($temperatureData as $data) {
             $created_at = $data->created_at;
-            $temperature = $data->temp_cel;
-
+            
             if (!$currentHour) {
                 $currentHour = $created_at->format('Y-m-d H:00:00');
                 $closestDataPoint = $data;

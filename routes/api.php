@@ -29,4 +29,4 @@ Route::get('/fetch-weather-api',[WeatherController::class,'fetchWeatherAPI'])->n
 
 // From Database
 Route::get('/get-hourly-data',[WeatherController::class,'getHourlyData'])->name('getHourlyData');
-Route::get('/get-hourly-data-by-city/{city_name}',[WeatherController::class,'getHourlyDataByCity'])->name('getHourlyData');
+Route::get('/get-hourly-data-by-city/{city_name}/{selectedDate}',[WeatherController::class,'getHourlyDataByCity'])->name('getHourlyData');

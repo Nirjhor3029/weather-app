@@ -26,3 +26,13 @@
 .weather_container .temp_container .temp_symbol{
     color: rgb(94, 94, 188);
 }
+
+
+.chart-header{
+    display: flex;
+    justify-content: space-between;
+}
+
+.chart-header .date{
+    height: 21px;
+}
