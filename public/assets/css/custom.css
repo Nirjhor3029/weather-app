@@ -1,38 +1,100 @@
-.weather_container{
+.weather_container {
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: .5rem !important;
 }
-.weather_container .address{
+
+.weather_container .address {
     width: 100%;
 }
-.weather_container .weather_icon{
+
+.weather_container .weather_icon {
     height: 100px;
 }
 
-.weather_container .city_name{
+.weather_container .city_name {
     font-size: 18px;
 }
-.weather_container .country_name{
+
+.weather_container .country_name {
     font-size: 10px;
     font-weight: 400;
 }
 
-.weather_container .temp_container{
-    font-size: 46px;
+.weather_container .temp_container {
+    font-size: 56px;
 }
 
-.weather_container .temp_container .temp_symbol{
-    color: rgb(94, 94, 188);
+.weather_container .temp_container .temp_symbol {
+    color: rgb(114, 114, 206);
 }
 
 
-.chart-header{
+.chart-header {
     display: flex;
     justify-content: space-between;
 }
 
-.chart-header .date{
+.chart-header .date {
     height: 21px;
+}
+
+
+/* All Important */
+.content-wrapper {
+    background: #fff !important;
+    color: #282A36 !important;
+}
+
+
+.card {
+    background-color: #fff !important;
+    color: #eceaea !important;
+}
+
+.card .card-title{
+    color: #575961;;
+}
+
+.weather-card {
+    background-color: #736099 !important;
+    color: #eceaea !important;
+    border-radius: 16px !important;
+}
+
+.navbar {
+    background: #e9e6e6 !important;
+    color: #282A36 !important;
+}
+
+.sidebar .sidebar-brand-wrapper {
+    background: #e9e6e6 !important;
+    color: #282A36 !important;
+}
+
+.sidebar {
+    background: #e9e6e6 !important;
+    color: #282A36 !important;
+}
+
+.footer {
+    background: #e9e6e6 !important;
+    color: #282A36 !important;
+}
+
+.logo {
+    background: linear-gradient(to right, #8104B5, #C6018B);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-size: 3.5rem;
+}
+
+    /* .sidebar .nav .nav-item.active > .nav-link {
+        background: linear-gradient(to right, #8104B5, #C6018B) !important;
+    } */
+.table-hover tbody tr:hover {
+    background: linear-gradient(to right, #8104B5, #C6018B) !important;
+    color: #fff;
 }

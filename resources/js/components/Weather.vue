@@ -7,7 +7,7 @@
             :key="index"
             class="col-xl-4 col-md-4 col-sm-4 grid-margin stretch-card"
         >
-            <div class="card">
+            <div class="card weather-card">
                 <div class="card-body weather_container">
                     <div class="address">
                         <div class="city_name">{{ item.name }}</div>

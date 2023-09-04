@@ -1,12 +1,10 @@
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
     <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-        <a class="sidebar-brand brand-logo" href="index.html"><img src="assets/images/logo.svg"
-                alt="logo" /></a>
-        <a class="sidebar-brand brand-logo-mini" href="index.html"><img src="assets/images/logo-mini.svg"
-                alt="logo" /></a>
+
+        <h3 class="logo">IQ</h3>
     </div>
     <ul class="nav">
-        
+
         <li class="nav-item profile">
             <div class="profile-desc">
                 <div class="profile-pic">
@@ -26,7 +24,7 @@
             <span class="nav-link">Navigation</span>
         </li>
         <li class="nav-item menu-items">
-            <a class="nav-link" href="{{route('weaterReport')}}">
+            <a class="nav-link" href="{{ route('weaterReport') }}">
                 <span class="menu-icon">
                     <i class="mdi mdi-speedometer"></i>
                 </span>
@@ -35,7 +33,7 @@
         </li>
 
         <li class="nav-item menu-items">
-            <a class="nav-link" href="{{route('cities')}}">
+            <a class="nav-link" href="{{ route('cities') }}">
                 <span class="menu-icon">
                     <i class="mdi mdi-playlist-play"></i>
                 </span>

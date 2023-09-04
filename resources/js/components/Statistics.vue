@@ -1,18 +1,22 @@
 <template>
     <h1 style="margin-bottom: 1.875rem">Statistics</h1>
 
+    <div class="row">
+        <div class="offset-md-6 col-md-6">
+            <div class="form-group">
+                <!-- <label>Single select box using select 2</label> -->
+                <select v-model="selectedCity" class="select2" style="width:100%">
+                    <option v-for="(item, index) in cities" :key="index" :value="item.name">{{ item.name }}</option>
+                </select>
+            </div>
+        </div>
+    </div>
     <!-- Markup -->
     <div class="card">
         <div class="card-body">
             <div class="chart-header">
                 <h4 class="card-title">Temperature (Last 24 Hours)</h4>
-                <input
-                    type="date"
-                    class="date"
-                    name="date"
-                    id=""
-                    v-model="selectedDate"
-                />
+                <input type="date" class="date" name="date" id="" v-model="selectedDate" />
             </div>
             <canvas id="areaChart" style="height: 250px"></canvas>
         </div>
@@ -22,21 +26,11 @@
         <div class="card-body">
             <div class="chart-header">
                 <h4 class="card-title">Wind (Last 24 Hours)</h4>
-                <input
-                    type="date"
-                    class="date"
-                    name="date"
-                    id=""
-                    v-model="windSelectedDate"
-                />
+                <input type="date" class="date" name="date" id="" v-model="windSelectedDate" />
             </div>
             <!-- <canvas id="areaChart" style="height: 250px"></canvas> -->
 
-            <canvas
-                id="windChart"
-                aria-label="chart"
-                style="height: 250px"
-            ></canvas>
+            <canvas id="windChart" aria-label="chart" style="height: 250px"></canvas>
         </div>
     </div>
 
@@ -44,21 +38,11 @@
         <div class="card-body">
             <div class="chart-header">
                 <h4 class="card-title">Humidity (Last 24 Hours)</h4>
-                <input
-                    type="date"
-                    class="date"
-                    name="date"
-                    id=""
-                    v-model="humiditySelectedDate"
-                />
+                <input type="date" class="date" name="date" id="" v-model="humiditySelectedDate" />
             </div>
             <!-- <canvas id="areaChart" style="height: 250px"></canvas> -->
 
-            <canvas
-                id="humidityChart"
-                aria-label="chart"
-                style="height: 250px"
-            ></canvas>
+            <canvas id="humidityChart" aria-label="chart" style="height: 250px"></canvas>
         </div>
     </div>
 </template>
@@ -71,29 +55,61 @@ export default {
         return {
             selectedDate: this.setAllDateFields(),
             windSelectedDate: this.setAllDateFields(),
+            humiditySelectedDate: this.setAllDateFields(),
+            selectedCity: "Dubai",
+            cities: [],
         };
     },
     watch: {
         selectedDate(newDate) {
-            // This method will be called when the date input changes
             console.log("Date changed to:", newDate);
-            this.fetchData(newDate,true);
+            this.fetchData(newDate, true);
         },
         windSelectedDate(newDate) {
-            // This method will be called when the date input changes
             console.log("Date changed to:", newDate);
-            this.fetchData(newDate,false,true);
+            this.fetchData(newDate, false, true);
+        },
+        humiditySelectedDate(newDate) {
+            console.log("Date changed to:", newDate);
+            this.fetchData(newDate, false, false, true);
+        },
+        selectedCity(newCity) {
+            console.log("City changed to:", newCity);
+            this.fetchData(this.selectedDate, true, true, true);
         },
     },
     mounted() {
         console.log("Component mounted");
         this.fetchData("today", true, true, true);
-        // this.setAllDateFields();
+        this.getCities();
     },
 
     methods: {
+
+        getCities() {
+            fetch(baseUrl + "/api/get-cities")
+                .then((response) => response.json())
+                .then((data) => {
+                    // console.log("cities data: ");
+                    // console.log(data);
+                    if (data.code == 200) {
+                        if (data.data.length === 0) {
+                            $(".no-data").show();
+                        } else {
+                            $(".no-data").hide();
+                        }
+                        // console.log(data);
+                        this.cities = data.data;
+                        this.fetchData();
+                    }
+                })
+                .catch((error) => {
+                    console.error("An error occurred:", error);
+                });
+        },
+
         fetchData(selectedDate, temp = false, wind = false, humidity = false) {
-            let cityName = "Dubai";
+            let cityName = this.selectedCity;
             const apiUrl =
                 baseUrl +
                 "/api/get-hourly-data-by-city/" +
@@ -223,7 +239,7 @@ export default {
                                     labels: hour,
                                     datasets: [
                                         {
-                                            label: "km/h",
+                                            label: "Wind",
                                             data: winds,
                                             backgroundColor: [
                                                 "yellow",
@@ -244,8 +260,38 @@ export default {
                                 },
                             });
                         }
-                        if(humidity){
 
+
+                        if (humidity) {
+                            var humidityChart = document
+                                .getElementById("humidityChart")
+                                .getContext("2d");
+                            var chartId = new Chart(humidityChart, {
+                                type: "bar",
+                                data: {
+                                    labels: hour,
+                                    datasets: [
+                                        {
+                                            label: "Humidity",
+                                            data: humidities,
+                                            backgroundColor: [
+                                                "yellow",
+                                                "aqua",
+                                                "pink",
+                                                "lightgreen",
+                                                "lightblue",
+                                                "gold",
+                                            ],
+                                            borderColor: ["black"],
+                                            borderWidth: 2,
+                                            pointRadius: 5,
+                                        },
+                                    ],
+                                },
+                                options: {
+                                    responsive: true,
+                                },
+                            });
                         }
                     }
                 })
